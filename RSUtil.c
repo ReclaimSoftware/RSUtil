@@ -41,6 +41,22 @@ void RSFWriteOrDie(void *data, size_t size, FILE *file) {
 }
 
 
+FILE* RSFOpenOrDie(char *path, char *mode) {
+    FILE *file = fopen(path, mode);
+    if (!file) {
+        RSFatalError("fopen");
+    }
+    return file;
+}
+
+
+void RSFCloseOrDie(FILE *file) {
+    if (fclose(file)) {
+        RSFatalError("fclose");
+    }
+}
+
+
 int8_t RSReadInt8(uint8_t *data, uint32_t *offset) {
     uint32_t i = *offset;
     *offset = i + 1;
