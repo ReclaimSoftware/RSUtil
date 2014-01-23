@@ -57,6 +57,22 @@ void RSFCloseOrDie(FILE *file) {
 }
 
 
+void* RSReadFileOrDie(char *path, uint32_t *size) {
+    FILE *file = RSFOpenOrDie(path, "r");
+    if(fseek(file, 0, SEEK_END) != 0) {
+        RSFatalError("fseek");
+    }
+    *size = ftell(file);
+    if (fseek(file, 0, SEEK_SET) != 0) {
+        RSFatalError("fseek");
+    }
+    void *data = RSMallocOrDie(*size);
+    RSFReadOrDie(data, *size, file);
+    RSFCloseOrDie(file);
+    return data;
+}
+
+
 int8_t RSReadInt8(uint8_t *data, uint32_t *offset) {
     uint32_t i = *offset;
     *offset = i + 1;
