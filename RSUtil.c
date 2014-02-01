@@ -62,7 +62,7 @@ void* RSReadFileOrDie(char *path, uint32_t *size) {
     if(fseek(file, 0, SEEK_END) != 0) {
         RSFatalError("fseek");
     }
-    *size = ftell(file);
+    *size = (uint32_t)ftell(file);
     if (fseek(file, 0, SEEK_SET) != 0) {
         RSFatalError("fseek");
     }
